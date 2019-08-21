@@ -1,14 +1,14 @@
 export PATH="$PREFIX/bin:$BUILD_PREFIX/Library/bin:$SRC_DIR:$PATH"
-export CC=cl_wrapper.sh
-export CXX=cl_wrapper.sh
+export CC=clang.exe
+export CXX=clang++.exe
 export RANLIB=llvm-ranlib
 export AS=llvm-as
 export AR=llvm-ar
 export NM=llvm-nm
 export LD=lld-link
-export CCCL=clang-cl
-export CFLAGS="-MD -I$PREFIX/include -O2 -D_CRT_SECURE_NO_WARNINGS"
-export CXXFLAGS="-MD -I$PREFIX/include -O2 -EHs -D_CRT_SECURE_NO_WARNINGS"
+export CFLAGS="-I$PREFIX/include -O2 -D_CRT_SECURE_NO_WARNINGS"
+export CXXFLAGS="-I$PREFIX/include -O2 -D_CRT_SECURE_NO_WARNINGS"
+export CPPFLAGS="-I$PREFIX/include -O2 -D_CRT_SECURE_NO_WARNINGS"
 export LDFLAGS="-L$PREFIX/lib"
 export lt_cv_deplibs_check_method=pass_all
 
@@ -38,7 +38,7 @@ fi
 
 bash -e ./build.sh
 
-if [[ -f "${PREFIX}/lib/${PKG_NAME}.lib" ]]; then
+if [[ -f "${PREFIX}/lib/${PKG_NAME}.lib" && -f "${PREFIX}/lib/${PKG_NAME}.dll.lib" ]]; then
     mv "${PREFIX}/lib/${PKG_NAME}.lib"     "${PREFIX}/lib/${PKG_NAME}_static.lib"
     mv "${PREFIX}/lib/${PKG_NAME}.dll.lib" "${PREFIX}/lib/${PKG_NAME}.lib"
 fi
