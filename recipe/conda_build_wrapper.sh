@@ -27,12 +27,14 @@ patch_libtool () {
     cat libtool2 >> libtool
 }
 
-# Rename libpng.lib to png.lib
-LIB_RENAME_FILES=$(find ${PREFIX}/lib -maxdepth 1 -iname 'lib*.lib')
-for file in $(LIB_RENAME_FILES); do
-   libname=$(basename ${file})
-   cp ${PREFIX}/lib/${libname} ${PREFIX}/lib/${libname:3}
-done
+if [[ "${REMOVE_LIB_PREFIX}" != "no" ]]; then
+    # Rename libpng.lib to png.lib
+    LIB_RENAME_FILES=$(find ${PREFIX}/lib -maxdepth 1 -iname 'lib*.lib')
+    for file in ${LIB_RENAME_FILES}; do
+       libname=$(basename ${file})
+       cp ${PREFIX}/lib/${libname} ${PREFIX}/lib/${libname:3}
+    done
+fi
 
 bash -e ./build.sh
 
@@ -41,8 +43,10 @@ if [[ -f "${PREFIX}/lib/${PKG_NAME}.lib" ]]; then
     mv "${PREFIX}/lib/${PKG_NAME}.dll.lib" "${PREFIX}/lib/${PKG_NAME}.lib"
 fi
 
-for file in $(LIB_RENAME_FILES); do
-   libname=$(basename ${file})
-   rm ${PREFIX}/lib/${libname:3}
-done
 
+if [[ "${REMOVE_LIB_PREFIX}" != "no" ]]; then
+    for file in ${LIB_RENAME_FILES}; do
+       libname=$(basename ${file})
+       rm ${PREFIX}/lib/${libname:3}
+    done
+fi
