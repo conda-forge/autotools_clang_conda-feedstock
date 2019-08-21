@@ -21,7 +21,7 @@ To use this package, in meta.yaml
 
 In bld.bat
 
-  call %BUILD_PREFIX%\bin\run_autotools_clang_conda_build.bat
+  call %BUILD_PREFIX%\Library\bin\run_autotools_clang_conda_build.bat
 
 In build.sh
 
