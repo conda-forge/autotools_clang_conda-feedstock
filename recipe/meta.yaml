@@ -1,6 +1,6 @@
 package:
   name: autotools_clang_conda
-  version: 0.0.2
+  version: 0.0.3
 
 build:
   number: 0
@@ -50,6 +50,7 @@ about:
     In bld.bat
 
       call %BUILD_PREFIX%\Library\bin\run_autotools_clang_conda_build.bat
+      if errorlevel 1 exit 1
 
     In build.sh
 
