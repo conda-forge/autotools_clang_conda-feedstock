@@ -25,7 +25,7 @@ patch_libtool () {
     sed -i.bak "s/export_symbols_cmds=/export_symbols_cmds2=/g" libtool
     sed "s/archive_expsym_cmds=/archive_expsym_cmds2=/g" libtool > libtool2
     echo "#!/bin/bash" > libtool
-    echo "export_symbols_cmds=\"echo \\\$libobjs \\\$convenience | \\\$SED 's/ /\n/g'  > \\\$export_symbols.tmp && cmake -E __create_def \\\$export_symbols \\\$export_symbols.tmp\"" >> libtool
+    echo "export_symbols_cmds=\"$SRC_DIR/create_def.sh \\\$export_symbols \\\$libobjs \\\$convenience \"" >> libtool
     echo "archive_expsym_cmds=\"\\\$CC -o \\\$tool_output_objdir\\\$soname \\\$libobjs \\\$compiler_flags \\\$deplibs -Wl,-DEF:\\\\\\\"\\\$export_symbols\\\\\\\" -Wl,-DLL,-IMPLIB:\\\\\\\"\\\$tool_output_objdir\\\$libname.dll.lib\\\\\\\"; echo \"" >> libtool
     cat libtool2 >> libtool
 }
