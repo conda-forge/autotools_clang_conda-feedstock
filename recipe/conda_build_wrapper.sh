@@ -7,8 +7,8 @@ export AR=llvm-ar
 export NM=llvm-nm
 export LD=lld-link
 export CFLAGS="-I$PREFIX/include -O2 -D_CRT_SECURE_NO_WARNINGS"
-export CXXFLAGS="-I$PREFIX/include -O2 -D_CRT_SECURE_NO_WARNINGS"
-export CPPFLAGS="-I$PREFIX/include -O2 -D_CRT_SECURE_NO_WARNINGS"
+export CXXFLAGS="$CFLAGS"
+export CPPFLAGS="$CFLAGS"
 export LDFLAGS="-L$PREFIX/lib"
 export lt_cv_deplibs_check_method=pass_all
 
@@ -36,7 +36,7 @@ if [[ "${REMOVE_LIB_PREFIX}" != "no" ]]; then
     done
 fi
 
-bash -e ./build.sh
+source ./build.sh
 
 if [[ -f "${PREFIX}/lib/${PKG_NAME}.lib" && -f "${PREFIX}/lib/${PKG_NAME}.dll.lib" ]]; then
     mv "${PREFIX}/lib/${PKG_NAME}.lib"     "${PREFIX}/lib/${PKG_NAME}_static.lib"
