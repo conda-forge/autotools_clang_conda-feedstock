@@ -9,10 +9,10 @@ export AS=llvm-as
 export AR=llvm-ar
 export NM=llvm-nm
 export LD=lld-link
-export CFLAGS="-I$PREFIX/include -O2 -D_CRT_SECURE_NO_WARNINGS"
+export CFLAGS="-I$PREFIX/include -O2 -D_CRT_SECURE_NO_WARNINGS -D_DLL -D_MT"
 export CXXFLAGS="$CFLAGS"
 export CPPFLAGS="$CFLAGS"
-export LDFLAGS="-L$PREFIX/lib"
+export LDFLAGS="-L$PREFIX/lib -Wl,-nodefaultlib:libcmt.lib -Wl,-defaultlib:msvrt.lib"
 export lt_cv_deplibs_check_method=pass_all
 
 echo "You need to run patch_libtool bash function after configure to fix the libtool script."
@@ -41,8 +41,10 @@ fi
 
 source ./build.sh
 
-if [[ -f "${PREFIX}/lib/${PKG_NAME}.lib" && -f "${PREFIX}/lib/${PKG_NAME}.dll.lib" ]]; then
-    mv "${PREFIX}/lib/${PKG_NAME}.lib"     "${PREFIX}/lib/${PKG_NAME}_static.lib"
+if [[  -f "${PREFIX}/lib/${PKG_NAME}.dll.lib" ]]; then
+    if [[ -f "${PREFIX}/lib/${PKG_NAME}.lib" ]]; then
+        mv "${PREFIX}/lib/${PKG_NAME}.lib" "${PREFIX}/lib/${PKG_NAME}_static.lib"
+    fi
     mv "${PREFIX}/lib/${PKG_NAME}.dll.lib" "${PREFIX}/lib/${PKG_NAME}.lib"
 fi
 
