@@ -12,7 +12,7 @@ export LD=lld-link
 export CFLAGS="-I$PREFIX/include -O2 -D_CRT_SECURE_NO_WARNINGS -D_DLL -D_MT"
 export CXXFLAGS="$CFLAGS"
 export CPPFLAGS="$CFLAGS"
-export LDFLAGS="-L$PREFIX/lib -Wl,-nodefaultlib:libcmt.lib -Wl,-defaultlib:msvrt.lib"
+export LDFLAGS="-L$PREFIX/lib -Wl,-nodefaultlib:libcmt.lib -Wl,-defaultlib:msvcrt.lib"
 export lt_cv_deplibs_check_method=pass_all
 
 echo "You need to run patch_libtool bash function after configure to fix the libtool script."
