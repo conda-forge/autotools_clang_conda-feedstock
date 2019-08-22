@@ -1,4 +1,5 @@
 copy "%RECIPE_DIR%\build.sh" .
+copy "%BUILD_PREFIX%\Library\bin\create_def.sh" .
 copy "%BUILD_PREFIX%\Library\bin\conda_build_wrapper.sh" .
 set MSYSTEM=MINGW%ARCH%
 set MSYS2_PATH_TYPE=inherit
