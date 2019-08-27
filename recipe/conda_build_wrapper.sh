@@ -27,8 +27,8 @@ patch_libtool () {
     echo "#!/bin/bash" > libtool
     echo "export_symbols_cmds=\"$SRC_DIR/create_def.sh \\\$export_symbols \\\$libobjs \\\$convenience \"" >> libtool
     echo "archive_expsym_cmds=\"\\\$CC -o \\\$tool_output_objdir\\\$soname \\\$libobjs \\\$compiler_flags \\\$deplibs -Wl,-DEF:\\\\\\\"\\\$export_symbols\\\\\\\" -Wl,-DLL,-IMPLIB:\\\\\\\"\\\$tool_output_objdir\\\$libname.dll.lib\\\\\\\"; echo \"" >> libtool
-    sed -i.bak "s@|-fuse@|-fuse-ld=*|-nostdlib|-fuse@g"
     cat libtool2 >> libtool
+    sed -i.bak "s@|-fuse@|-fuse-ld=*|-nostdlib|-fuse@g" libtool
 }
 
 if [[ "${REMOVE_LIB_PREFIX}" != "no" ]]; then
