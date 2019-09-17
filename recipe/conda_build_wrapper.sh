@@ -35,8 +35,10 @@ if [[ "${REMOVE_LIB_PREFIX}" != "no" ]]; then
     # Rename libpng.lib to png.lib
     LIB_RENAME_FILES=$(find ${PREFIX}/lib -maxdepth 1 -iname 'lib*.lib')
     for file in ${LIB_RENAME_FILES}; do
-       libname=$(basename ${file})
-       cp ${PREFIX}/lib/${libname} ${PREFIX}/lib/${libname:3}
+        libname=$(basename ${file})
+        if [[ ! -f ${PREFIX}/lib/${libname:3} ]]; then
+            cp ${PREFIX}/lib/${libname} ${PREFIX}/lib/${libname:3}
+        fi
     done
 fi
 
@@ -52,7 +54,7 @@ fi
 
 if [[ "${REMOVE_LIB_PREFIX}" != "no" ]]; then
     for file in ${LIB_RENAME_FILES}; do
-       libname=$(basename ${file})
-       rm ${PREFIX}/lib/${libname:3}
+        libname=$(basename ${file})
+        rm ${PREFIX}/lib/${libname:3}
     done
 fi
