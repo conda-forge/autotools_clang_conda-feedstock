@@ -17,11 +17,11 @@ To use this package, in meta.yaml
   requirements:
     build:
       - gcc_linux-64 7.*
-      - autotools_clang_conda
 
 In bld.bat
 
   call %BUILD_PREFIX%\Library\bin\run_autotools_clang_conda_build.bat
+  if errorlevel 1 exit 1
 
 In build.sh
 
@@ -35,14 +35,7 @@ Current build status
 ====================
 
 
-<table><tr>
-    <td>Appveyor</td>
-    <td>
-      <a href="https://ci.appveyor.com/project/conda-forge/autotools-clang-conda-feedstock/branch/master">
-        <img alt="windows" src="https://img.shields.io/appveyor/ci/conda-forge/autotools-clang-conda-feedstock/master.svg?label=Windows">
-      </a>
-    </td>
-  </tr>
+<table>
     
   <tr>
     <td>Azure</td>
@@ -87,7 +80,12 @@ Current build status
       <img src="https://img.shields.io/badge/OSX-disabled-lightgrey.svg" alt="OSX disabled">
     </td>
   </tr>
-![ppc64le disabled](https://img.shields.io/badge/ppc64le-disabled-lightgrey.svg)
+  <tr>
+    <td>Linux_ppc64le</td>
+    <td>
+      <img src="https://img.shields.io/badge/ppc64le-disabled-lightgrey.svg" alt="ppc64le disabled">
+    </td>
+  </tr>
 </table>
 
 Current release info
