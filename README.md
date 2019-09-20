@@ -17,19 +17,19 @@ To use this package, in meta.yaml
 build:
 requirements:
   build:
-    - clang_osx-64 4.*
+    - gcc_linux-64 7.*
 ```
 
 In bld.bat
 
-```yaml
+```bat
 call %BUILD_PREFIX%\Library\bin\run_autotools_clang_conda_build.bat
 if errorlevel 1 exit 1
 ```
 
 In build.sh
 
-```yaml
+```sh
 ./configure --prefix=$PREFIX
 [[ "$target_platform" == "win-64" ]] && patch_libtool
 make -j${CPU_COUNT}
