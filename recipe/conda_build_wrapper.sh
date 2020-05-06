@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e
 
+[ -z "$1" ] && BUILDSCRIPT=build.sh || BUILDSCRIPT=$1
+
 export PATH="$PREFIX/bin:$BUILD_PREFIX/Library/bin:$SRC_DIR:$PATH"
 export CC=clang.exe
 export CXX=clang++.exe
@@ -42,7 +44,8 @@ if [[ "${REMOVE_LIB_PREFIX}" != "no" ]]; then
     done
 fi
 
-source ./build.sh
+# run buildscript
+source ./$BUILDSCRIPT
 
 if [[  -f "${PREFIX}/lib/${PKG_NAME}.dll.lib" ]]; then
     if [[ -f "${PREFIX}/lib/${PKG_NAME}.lib" ]]; then
