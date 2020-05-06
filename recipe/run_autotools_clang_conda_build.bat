@@ -1,4 +1,9 @@
-copy "%RECIPE_DIR%\build.sh" .
+IF "%1"=="" (
+  set "BUILDSCRIPT=build.sh"
+) else (
+  set "BUILDSCRIPT=%1"
+)
+copy "%RECIPE_DIR%\%BUILDSCRIPT%" .
 copy "%BUILD_PREFIX%\Library\bin\create_def.sh" .
 copy "%BUILD_PREFIX%\Library\bin\conda_build_wrapper.sh" .
 set MSYSTEM=MINGW%ARCH%
@@ -8,6 +13,5 @@ FOR /F "delims=" %%i in ('cygpath.exe -u "%LIBRARY_PREFIX%"') DO set "PREFIX=%%i
 FOR /F "delims=" %%i in ('cygpath.exe -u "%BUILD_PREFIX%"') DO set "BUILD_PREFIX=%%i"
 FOR /F "delims=" %%i in ('cygpath.exe -u "%SRC_DIR%"') DO set "SRC_DIR=%%i"
 FOR /F "delims=" %%i in ('cygpath.exe -u "%RECIPE_DIR%"') DO set "RECIPE_DIR=%%i"
-bash -lce "./conda_build_wrapper.sh"
-if errorlevel 1 exit 1
-
+bash -lce "./conda_build_wrapper.sh %BUILDSCRIPT%"
+if %ERRORLEVEL% neq 0 exit 1
