@@ -1,6 +1,6 @@
 package:
   name: autotools_clang_conda
-  version: 0.0.7
+  version: 0.0.8
 
 build:
   number: 0
@@ -27,7 +27,7 @@ test:
 
 about:
   home: http://github.com/conda-forge/autotools_clang_conda-feedstock
-  license: BSD-3-clause
+  license: BSD-3-Clause
   license_family: BSD
   license_file: LICENSE
   summary: 'Scripts to compile autotools projects on windows using clang and llvm tools'
