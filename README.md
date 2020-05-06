@@ -13,22 +13,28 @@ This package installs clang compiler, lld linker, tools like llvm-ranlib, llvm-a
 bash, autoconf to compiler autotools on windows. Resulting packages will be MSVC compatible.
 To use this package, in meta.yaml
 
+```yaml
+build:
+requirements:
   build:
-  requirements:
-    build:
-      - gcc_linux-64 7.*
+    - gcc_linux-64 7.*
+```
 
 In bld.bat
 
-  call %BUILD_PREFIX%\Library\bin\run_autotools_clang_conda_build.bat
-  if errorlevel 1 exit 1
+```bat
+call %BUILD_PREFIX%\Library\bin\run_autotools_clang_conda_build.bat
+if errorlevel 1 exit 1
+```
 
 In build.sh
 
-  ./configure --prefix=$PREFIX
-  [[ "$target_platform" == "win-64" ]] && patch_libtool
-  make -j${CPU_COUNT}
-  make install
+```sh
+./configure --prefix=$PREFIX
+[[ "$target_platform" == "win-64" ]] && patch_libtool
+make -j${CPU_COUNT}
+make install
+```
 
 
 Current build status
