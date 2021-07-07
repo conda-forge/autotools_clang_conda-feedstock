@@ -1,6 +1,6 @@
 package:
   name: autotools_clang_conda
-  version: 0.0.9
+  version: 0.0.10
 
 build:
   number: 0
