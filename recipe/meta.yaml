@@ -1,6 +1,6 @@
 package:
   name: autotools_clang_conda
-  version: 0.0.10
+  version: 0.0.11
 
 # specify source to be able to pass test-scripts to test-env
 source:
