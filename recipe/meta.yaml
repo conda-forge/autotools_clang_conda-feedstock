@@ -2,6 +2,10 @@ package:
   name: autotools_clang_conda
   version: 0.0.10
 
+# specify source to be able to pass test-scripts to test-env
+source:
+  path: .
+
 build:
   number: 0
   skip: True   # [not win]
@@ -22,8 +26,13 @@ requirements:
     - cmake
 
 test:
+  source_files:
+    - test_build-sh.bat
+    - test_build_subpackage-sh.bat
   commands:
     - if not exist %LIBRARY_BIN%\run_autotools_clang_conda_build.bat exit 0
+    - test_build-sh.bat
+    - test_build_subpackage-sh.bat
 
 about:
   home: http://github.com/conda-forge/autotools_clang_conda-feedstock

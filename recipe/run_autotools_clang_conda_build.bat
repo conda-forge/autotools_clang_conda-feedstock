@@ -4,8 +4,8 @@ IF "%1"=="" (
   set "BUILDSCRIPT=%1"
 )
 copy "%RECIPE_DIR%\%BUILDSCRIPT%" .
-copy "%BUILD_PREFIX%\Library\bin\create_def.sh" .
-copy "%BUILD_PREFIX%\Library\bin\conda_build_wrapper.sh" .
+copy "%LIBRARY_BIN%\create_def.sh" .
+copy "%LIBRARY_BIN%\conda_build_wrapper.sh" .
 set MSYSTEM=MINGW%ARCH%
 set MSYS2_PATH_TYPE=inherit
 set CHERE_INVOKING=1
