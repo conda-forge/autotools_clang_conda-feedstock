@@ -16,6 +16,9 @@ export CXXFLAGS="$CFLAGS"
 export CPPFLAGS="$CFLAGS"
 export LDFLAGS="-L${LIBRARY_LIB//\\//} -fuse-ld=lld -nostdlib -Xclang --dependent-lib=msvcrt"
 export lt_cv_deplibs_check_method=pass_all
+# Directories in INCLUDE are added to end of the search list even if they
+# are given as -I arguments and screws up the search path for eg: omp.h
+unset INCLUDE
 
 echo "You need to run patch_libtool bash function after configure to fix the libtool script."
 echo "If your package uses OpenMP, add llvm-openmp to your host and run requirements."
