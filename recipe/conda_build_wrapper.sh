@@ -11,11 +11,14 @@ export AS=llvm-as
 export AR=llvm-ar
 export NM=llvm-nm
 export LD=lld-link
-export CFLAGS="-I${LIBRARY_INC} -O2 -D_CRT_SECURE_NO_WARNINGS -D_MT -D_DLL -nostdlib -Xclang --dependent-lib=msvcrt -fuse-ld=lld"
+export CFLAGS="-I${LIBRARY_INC//\\//} -O2 -D_CRT_SECURE_NO_WARNINGS -D_MT -D_DLL -nostdlib -Xclang --dependent-lib=msvcrt -fuse-ld=lld"
 export CXXFLAGS="$CFLAGS"
 export CPPFLAGS="$CFLAGS"
-export LDFLAGS="-L${LIBRARY_LIB} -fuse-ld=lld -nostdlib -Xclang --dependent-lib=msvcrt"
+export LDFLAGS="-L${LIBRARY_LIB//\\//} -fuse-ld=lld -nostdlib -Xclang --dependent-lib=msvcrt"
 export lt_cv_deplibs_check_method=pass_all
+# Directories in INCLUDE are added to end of the search list even if they
+# are given as -I arguments and screws up the search path for eg: omp.h
+unset INCLUDE
 
 echo "You need to run patch_libtool bash function after configure to fix the libtool script."
 echo "If your package uses OpenMP, add llvm-openmp to your host and run requirements."
@@ -30,7 +33,7 @@ patch_libtool () {
     echo "export_symbols_cmds=\"$SRC_DIR/create_def.sh \\\$export_symbols \\\$libobjs \\\$convenience \"" >> libtool
     echo "archive_expsym_cmds=\"\\\$CC -o \\\$tool_output_objdir\\\$soname \\\$libobjs \\\$compiler_flags \\\$deplibs -Wl,-DEF:\\\\\\\"\\\$export_symbols\\\\\\\" -Wl,-DLL,-IMPLIB:\\\\\\\"\\\$tool_output_objdir\\\$libname.dll.lib\\\\\\\"; echo \"" >> libtool
     cat libtool2 >> libtool
-    sed -i.bak "s@|-fuse@|-fuse-ld=*|-nostdlib|-fuse@g" libtool
+    sed -i.bak "s@|-fuse@|-fuse-ld=*|-nostdlib|-Xclang|-fuse@g" libtool
 }
 
 if [[ "${REMOVE_LIB_PREFIX}" != "no" ]]; then
