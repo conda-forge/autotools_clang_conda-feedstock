@@ -1,11 +1,11 @@
-About autotools_clang_conda
-===========================
+About autotools_clang_conda-feedstock
+=====================================
+
+Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/autotools_clang_conda-feedstock/blob/main/LICENSE.txt)
 
 Home: http://github.com/conda-forge/autotools_clang_conda-feedstock
 
 Package license: BSD-3-Clause
-
-Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/autotools_clang_conda-feedstock/blob/main/LICENSE.txt)
 
 Summary: Scripts to compile autotools projects on windows using clang and llvm tools
 
@@ -16,8 +16,11 @@ To use this package, in meta.yaml
   build:
   requirements:
     build:
+
+
       - vs2019_win-64
       - autotools_clang_conda
+
       - llvm-openmp
 
 In bld.bat
@@ -62,7 +65,7 @@ Current build status
               <td>win_64</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=7523&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/autotools_clang_conda-feedstock?branchName=main&jobName=win&configuration=win_64_" alt="variant">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/autotools_clang_conda-feedstock?branchName=main&jobName=win&configuration=win%20win_64_" alt="variant">
                 </a>
               </td>
             </tr>
@@ -146,7 +149,7 @@ available continuous integration services. Thanks to the awesome service provide
 [CircleCI](https://circleci.com/), [AppVeyor](https://www.appveyor.com/),
 [Drone](https://cloud.drone.io/welcome), and [TravisCI](https://travis-ci.com/)
 it is possible to build and upload installable packages to the
-[conda-forge](https://anaconda.org/conda-forge) [Anaconda-Cloud](https://anaconda.org/)
+[conda-forge](https://anaconda.org/conda-forge) [anaconda.org](https://anaconda.org/)
 channel for Linux, Windows and OSX respectively.
 
 To manage the continuous integration and simplify feedstock maintenance
