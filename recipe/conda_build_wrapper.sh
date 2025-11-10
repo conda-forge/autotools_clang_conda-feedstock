@@ -36,6 +36,8 @@ patch_libtool () {
     sed -i.bak "s@|-fuse@|-fuse-ld=*|-nostdlib|-Xclang|-fuse@g" libtool
 }
 
+mkdir -p ${PREFIX}/lib
+
 if [[ "${REMOVE_LIB_PREFIX}" != "no" ]]; then
     # Rename libpng.lib to png.lib
     LIB_RENAME_FILES=$(find ${PREFIX}/lib -maxdepth 1 -iname 'lib*.lib')
