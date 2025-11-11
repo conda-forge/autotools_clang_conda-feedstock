@@ -1,6 +1,6 @@
 package:
   name: autotools_clang_conda
-  version: 0.0.13
+  version: 0.0.14
 
 build:
   number: 0
@@ -12,7 +12,6 @@ requirements:
     - clangxx
     - llvm-tools
     - lld
-    - posix
     - m2-automake-wrapper
     - m2-libtool
     - m2-autoconf
@@ -23,6 +22,9 @@ requirements:
     - m2-sed
     - m2-base
     - m2-diffutils
+    - m2-tar
+    - m2-unzip
+    - m2-zip
     - cmake
 
 test:
