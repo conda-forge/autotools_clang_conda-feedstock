@@ -13,36 +13,36 @@ This package installs clang compiler, lld linker, tools like llvm-ranlib, llvm-a
 bash, autoconf to compiler autotools on windows. Resulting packages will be MSVC compatible.
 To use this package, in meta.yaml
 
-  build:
-  requirements:
     build:
-
-
-      - vs2019_win-64
-      - autotools_clang_conda
-
-      - llvm-openmp
+      skip: True  # [win and vc<14]
+    requirements:
+      build:
+        # cl compiler on win is required only for setting up env variables for
+        # activating the build environment
+        - {{ compiler('c') }}
+        - autotools_clang_conda  # [win]
+        # Needed only if OpenMP is used. Not compatible with MSVC's OpenMP implementation
+        - llvm-openmp   # [win]
 
 In bld.bat
 
-  call %BUILD_PREFIX%\Library\bin\run_autotools_clang_conda_build.bat
-  if %ERRORLEVEL% neq 0 exit 1
+    call %BUILD_PREFIX%\Library\bin\run_autotools_clang_conda_build.bat
+    if %ERRORLEVEL% neq 0 exit 1
 
 In build.sh
 
-  ./configure --prefix=$PREFIX
-  [[ "$target_platform" == "win-64" ]] && patch_libtool
-  make -j${CPU_COUNT}
-  make install
+    ./configure --prefix=$PREFIX
+    [[ "$target_platform" == "win-64" ]] && patch_libtool
+    make -j${CPU_COUNT}
+    make install
 
 In case the build script has a different name (for example in multi-output recipes),
 you can pass the name of the build script in the recipe folder to the bat-script:
 
 In build_subpackage.bat
 
-  call %BUILD_PREFIX%\Library\bin\run_autotools_clang_conda_build.bat build_subpackage.sh
-  if %ERRORLEVEL% neq 0 exit 1
-
+    call %BUILD_PREFIX%\Library\bin\run_autotools_clang_conda_build.bat build_subpackage.sh
+    if %ERRORLEVEL% neq 0 exit 1
 
 Current build status
 ====================
@@ -81,7 +81,7 @@ Current release info
 
 | Name | Downloads | Version | Platforms |
 | --- | --- | --- | --- |
-| [![Conda Recipe](https://img.shields.io/badge/recipe-autotools_clang_conda-green.svg)](https://anaconda.org/conda-forge/autotools_clang_conda) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/autotools_clang_conda.svg)](https://anaconda.org/conda-forge/autotools_clang_conda) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/autotools_clang_conda.svg)](https://anaconda.org/conda-forge/autotools_clang_conda) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/autotools_clang_conda.svg)](https://anaconda.org/conda-forge/autotools_clang_conda) |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-autotools__clang__conda-green.svg)](https://anaconda.org/conda-forge/autotools_clang_conda) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/autotools_clang_conda.svg)](https://anaconda.org/conda-forge/autotools_clang_conda) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/autotools_clang_conda.svg)](https://anaconda.org/conda-forge/autotools_clang_conda) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/autotools_clang_conda.svg)](https://anaconda.org/conda-forge/autotools_clang_conda) |
 
 Installing autotools_clang_conda
 ================================
@@ -152,12 +152,12 @@ it is possible to build and upload installable packages to the
 [conda-forge](https://anaconda.org/conda-forge) [anaconda.org](https://anaconda.org/)
 channel for Linux, Windows and OSX respectively.
 
-To manage the continuous integration and simplify feedstock maintenance
+To manage the continuous integration and simplify feedstock maintenance,
 [conda-smithy](https://github.com/conda-forge/conda-smithy) has been developed.
 Using the ``conda-forge.yml`` within this repository, it is possible to re-render all of
 this feedstock's supporting files (e.g. the CI configuration files) with ``conda smithy rerender``.
 
-For more information please check the [conda-forge documentation](https://conda-forge.org/docs/).
+For more information, please check the [conda-forge documentation](https://conda-forge.org/docs/).
 
 Terminology
 ===========
@@ -184,7 +184,7 @@ merged, the recipe will be re-built and uploaded automatically to the
 everybody to install and use from the `conda-forge` channel.
 Note that all branches in the conda-forge/autotools_clang_conda-feedstock are
 immediately built and any created packages are uploaded, so PRs should be based
-on branches in forks and branches in the main repository should only be used to
+on branches in forks, and branches in the main repository should only be used to
 build distinct package versions.
 
 In order to produce a uniquely identifiable distribution:

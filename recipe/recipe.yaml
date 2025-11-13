@@ -1,0 +1,79 @@
+schema_version: 1
+
+package:
+  name: autotools_clang_conda
+  version: 0.0.14
+
+build:
+  number: 1
+  skip: not win
+
+requirements:
+  run:
+    - clang
+    - clangxx
+    - llvm-tools
+    - lld
+    - m2-automake-wrapper
+    - m2-libtool
+    - m2-autoconf
+    - m2-make
+    - m2-findutils
+    - m2-m4
+    - m2-bash
+    - m2-sed
+    - m2-base
+    - m2-diffutils
+    - m2-tar
+    - m2-unzip
+    - m2-zip
+    - cmake
+
+tests:
+  - script:
+      - if not exist %LIBRARY_BIN%\run_autotools_clang_conda_build.bat exit 0
+
+about:
+  license: BSD-3-Clause
+  license_file: LICENSE
+  summary: Scripts to compile autotools projects on windows using clang and llvm tools
+  description: |
+    This package installs clang compiler, lld linker, tools like llvm-ranlib, llvm-ar,
+    bash, autoconf to compiler autotools on windows. Resulting packages will be MSVC compatible.
+    To use this package, in meta.yaml
+
+        build:
+          skip: True  # [win and vc<14]
+        requirements:
+          build:
+            # cl compiler on win is required only for setting up env variables for
+            # activating the build environment
+            - {{ compiler('c') }}
+            - autotools_clang_conda  # [win]
+            # Needed only if OpenMP is used. Not compatible with MSVC's OpenMP implementation
+            - llvm-openmp   # [win]
+
+    In bld.bat
+
+        call %BUILD_PREFIX%\Library\bin\run_autotools_clang_conda_build.bat
+        if %ERRORLEVEL% neq 0 exit 1
+
+    In build.sh
+
+        ./configure --prefix=$PREFIX
+        [[ "$target_platform" == "win-64" ]] && patch_libtool
+        make -j${CPU_COUNT}
+        make install
+
+    In case the build script has a different name (for example in multi-output recipes),
+    you can pass the name of the build script in the recipe folder to the bat-script:
+
+    In build_subpackage.bat
+
+        call %BUILD_PREFIX%\Library\bin\run_autotools_clang_conda_build.bat build_subpackage.sh
+        if %ERRORLEVEL% neq 0 exit 1
+  homepage: http://github.com/conda-forge/autotools_clang_conda-feedstock
+
+extra:
+  recipe-maintainers:
+    - isuruf
