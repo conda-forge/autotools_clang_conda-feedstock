@@ -1,10 +1,12 @@
+schema_version: 1
+
 package:
   name: autotools_clang_conda
   version: 0.0.14
 
 build:
   number: 0
-  skip: True   # [not win]
+  skip: not win
 
 requirements:
   run:
@@ -27,16 +29,14 @@ requirements:
     - m2-zip
     - cmake
 
-test:
-  commands:
-    - if not exist %LIBRARY_BIN%\run_autotools_clang_conda_build.bat exit 0
+tests:
+  - script:
+      - if not exist %LIBRARY_BIN%\run_autotools_clang_conda_build.bat exit 0
 
 about:
-  home: http://github.com/conda-forge/autotools_clang_conda-feedstock
   license: BSD-3-Clause
-  license_family: BSD
   license_file: LICENSE
-  summary: 'Scripts to compile autotools projects on windows using clang and llvm tools'
+  summary: Scripts to compile autotools projects on windows using clang and llvm tools
   description: |
     This package installs clang compiler, lld linker, tools like llvm-ranlib, llvm-ar,
     bash, autoconf to compiler autotools on windows. Resulting packages will be MSVC compatible.
@@ -72,6 +72,7 @@ about:
 
         call %BUILD_PREFIX%\Library\bin\run_autotools_clang_conda_build.bat build_subpackage.sh
         if %ERRORLEVEL% neq 0 exit 1
+  homepage: http://github.com/conda-forge/autotools_clang_conda-feedstock
 
 extra:
   recipe-maintainers:
