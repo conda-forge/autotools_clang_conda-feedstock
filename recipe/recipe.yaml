@@ -5,7 +5,7 @@ package:
   version: 0.0.14
 
 build:
-  number: 0
+  number: 1
   skip: not win
 
 requirements:
