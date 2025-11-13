@@ -42,36 +42,36 @@ about:
     bash, autoconf to compiler autotools on windows. Resulting packages will be MSVC compatible.
     To use this package, in meta.yaml
 
-      build:
-        skip: True  # [win and vc<14]
-      requirements:
         build:
-          # cl compiler on win is required only for setting up env variables for
-          # activating the build environment
-          - {{ compiler('c') }}
-          - autotools_clang_conda  # [win]
-          # Needed only if OpenMP is used. Not compatible with MSVC's OpenMP implementation
-          - llvm-openmp   # [win]
+          skip: True  # [win and vc<14]
+        requirements:
+          build:
+            # cl compiler on win is required only for setting up env variables for
+            # activating the build environment
+            - {{ compiler('c') }}
+            - autotools_clang_conda  # [win]
+            # Needed only if OpenMP is used. Not compatible with MSVC's OpenMP implementation
+            - llvm-openmp   # [win]
 
     In bld.bat
 
-      call %BUILD_PREFIX%\Library\bin\run_autotools_clang_conda_build.bat
-      if %ERRORLEVEL% neq 0 exit 1
+        call %BUILD_PREFIX%\Library\bin\run_autotools_clang_conda_build.bat
+        if %ERRORLEVEL% neq 0 exit 1
 
     In build.sh
 
-      ./configure --prefix=$PREFIX
-      [[ "$target_platform" == "win-64" ]] && patch_libtool
-      make -j${CPU_COUNT}
-      make install
+        ./configure --prefix=$PREFIX
+        [[ "$target_platform" == "win-64" ]] && patch_libtool
+        make -j${CPU_COUNT}
+        make install
 
     In case the build script has a different name (for example in multi-output recipes),
     you can pass the name of the build script in the recipe folder to the bat-script:
 
     In build_subpackage.bat
 
-      call %BUILD_PREFIX%\Library\bin\run_autotools_clang_conda_build.bat build_subpackage.sh
-      if %ERRORLEVEL% neq 0 exit 1
+        call %BUILD_PREFIX%\Library\bin\run_autotools_clang_conda_build.bat build_subpackage.sh
+        if %ERRORLEVEL% neq 0 exit 1
 
 extra:
   recipe-maintainers:
