@@ -3,26 +3,30 @@ About autotools_clang_conda-feedstock
 
 Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/autotools_clang_conda-feedstock/blob/main/LICENSE.txt)
 
+
+About autotools_clang_conda
+---------------------------
+
 Home: http://github.com/conda-forge/autotools_clang_conda-feedstock
 
 Package license: BSD-3-Clause
 
 Summary: Scripts to compile autotools projects on windows using clang and llvm tools
 
-This package installs clang compiler, lld linker, tools like llvm-ranlib, llvm-ar,
-bash, autoconf to compiler autotools on windows. Resulting packages will be MSVC compatible.
-To use this package, in meta.yaml
+This package installs Clang, LLD, LLVM tools, Bash, and Autoconf to build
+Autotools projects on Windows. Resulting packages are MSVC-compatible.
+To use this package in a Windows recipe, skip non-Windows targets, add the
+target C compiler through the recipe's `compiler('c')` helper, and add
+`autotools_clang_conda` to the build requirements. Add `llvm-openmp` only
+when OpenMP is required. On Windows ARM64, the wrapper supplies canonical
+Autotools build and host aliases for the native compiler target.
 
     build:
-      skip: True  # [win and vc<14]
+      skip: not win
     requirements:
       build:
-        # cl compiler on win is required only for setting up env variables for
-        # activating the build environment
-        - {{ compiler('c') }}
-        - autotools_clang_conda  # [win]
-        # Needed only if OpenMP is used. Not compatible with MSVC's OpenMP implementation
-        - llvm-openmp   # [win]
+        - vs2022_win-64
+        - autotools_clang_conda
 
 In bld.bat
 
@@ -32,7 +36,51 @@ In bld.bat
 In build.sh
 
     ./configure --prefix=$PREFIX
-    [[ "$target_platform" == "win-64" ]] && patch_libtool
+    [[ "$target_platform" == win-* ]] && patch_libtool
+    make -j${CPU_COUNT}
+    make install
+
+In case the build script has a different name (for example in multi-output recipes),
+you can pass the name of the build script in the recipe folder to the bat-script:
+
+In build_subpackage.bat
+
+    call %BUILD_PREFIX%\Library\bin\run_autotools_clang_conda_build.bat build_subpackage.sh
+    if %ERRORLEVEL% neq 0 exit 1
+
+About autotools_clang_conda
+---------------------------
+
+Home: http://github.com/conda-forge/autotools_clang_conda-feedstock
+
+Package license: BSD-3-Clause
+
+Summary: Scripts to compile autotools projects on windows using clang and llvm tools
+
+This package installs Clang, LLD, LLVM tools, Bash, and Autoconf to build
+Autotools projects on Windows. Resulting packages are MSVC-compatible.
+To use this package in a Windows recipe, skip non-Windows targets, add the
+target C compiler through the recipe's `compiler('c')` helper, and add
+`autotools_clang_conda` to the build requirements. Add `llvm-openmp` only
+when OpenMP is required. On Windows ARM64, the wrapper supplies canonical
+Autotools build and host aliases for the native compiler target.
+
+    build:
+      skip: not win
+    requirements:
+      build:
+        - vs2022_win-arm64
+        - autotools_clang_conda
+
+In bld.bat
+
+    call %BUILD_PREFIX%\Library\bin\run_autotools_clang_conda_build.bat
+    if %ERRORLEVEL% neq 0 exit 1
+
+In build.sh
+
+    ./configure --prefix=$PREFIX
+    [[ "$target_platform" == win-* ]] && patch_libtool
     make -j${CPU_COUNT}
     make install
 
@@ -48,7 +96,14 @@ Current build status
 ====================
 
 
-<table>
+<table><tr>
+    <td>GitHub Actions</td>
+    <td>
+      <a href="https://github.com/conda-forge/autotools_clang_conda-feedstock/actions/workflows/conda-build.yml">
+        <img src="https://github.com/conda-forge/autotools_clang_conda-feedstock/actions/workflows/conda-build.yml/badge.svg?event=push&branch=main">
+      </a>
+    </td>
+  </tr>
     
   <tr>
     <td>Azure</td>
@@ -61,14 +116,7 @@ Current build status
         </summary>
         <table>
           <thead><tr><th>Variant</th><th>Status</th></tr></thead>
-          <tbody><tr>
-              <td>win_64</td>
-              <td>
-                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=7523&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/autotools_clang_conda-feedstock?branchName=main&jobName=win&configuration=win%20win_64_" alt="variant">
-                </a>
-              </td>
-            </tr>
+          <tbody>
           </tbody>
         </table>
       </details>
@@ -93,31 +141,73 @@ conda config --add channels conda-forge
 conda config --set channel_priority strict
 ```
 
-Once the `conda-forge` channel has been enabled, `autotools_clang_conda` can be installed with `conda`:
+How to use
+----------
+
+<details>
+<summary>With conda</summary>
 
 ```
 conda install autotools_clang_conda
 ```
 
-or with `mamba`:
+</details>
+
+<details>
+<summary>With mamba</summary>
 
 ```
 mamba install autotools_clang_conda
 ```
 
-It is possible to list all of the versions of `autotools_clang_conda` available on your platform with `conda`:
+</details>
+
+<details>
+<summary>With pixi</summary>
+
+```
+# for adding to your local project
+pixi add autotools_clang_conda
+# for installing globally
+pixi global install autotools_clang_conda
+```
+
+</details>
+
+Search package versions
+-----------------------
+
+It is possible to list all of the versions of `autotools_clang_conda` available on your platform:
+
+<details>
+<summary>With conda</summary>
 
 ```
 conda search autotools_clang_conda --channel conda-forge
 ```
 
-or with `mamba`:
+</details>
+
+<details>
+<summary>With mamba</summary>
 
 ```
 mamba search autotools_clang_conda --channel conda-forge
 ```
 
-Alternatively, `mamba repoquery` may provide more information:
+</details>
+
+<details>
+<summary>With pixi</summary>
+
+```
+pixi search autotools_clang_conda --channel conda-forge
+```
+
+</details>
+
+<details>
+<summary>With mamba repoquery, which may provide more information</summary>
 
 ```
 # Search all versions available on your platform:
@@ -129,6 +219,8 @@ mamba repoquery whoneeds autotools_clang_conda --channel conda-forge
 # List dependencies of `autotools_clang_conda`:
 mamba repoquery depends autotools_clang_conda --channel conda-forge
 ```
+
+</details>
 
 
 About conda-forge
