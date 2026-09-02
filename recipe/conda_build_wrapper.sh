@@ -20,6 +20,20 @@ export lt_cv_deplibs_check_method=pass_all
 # are given as -I arguments and screws up the search path for eg: omp.h
 unset INCLUDE
 
+# The MSYS userland is x64, including under emulation on native Windows ARM64,
+# so config.guess cannot infer the compiler target. Supply defaults that retain
+# native probes on ARM64 runners and normal cross semantics on x64 runners.
+if [[ "${target_platform:-}" == "win-arm64" ]]; then
+    : "${host_alias:=aarch64-w64-mingw32}"
+    export host_alias
+
+    if [[ "${CONDA_BUILD_CROSS_COMPILATION:-0}" != "1" ]] &&
+       [[ "${build_platform:-win-arm64}" == "win-arm64" ]]; then
+        : "${build_alias:=aarch64-w64-mingw32}"
+        export build_alias
+    fi
+fi
+
 echo "You need to run patch_libtool bash function after configure to fix the libtool script."
 echo "If your package uses OpenMP, add llvm-openmp to your host and run requirements."
 
