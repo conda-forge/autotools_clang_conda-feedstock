@@ -5,7 +5,7 @@ package:
   version: 0.0.14
 
 build:
-  number: 1
+  number: 2
   skip: not win
 
 requirements:
@@ -31,27 +31,35 @@ requirements:
 
 tests:
   - script:
-      - if not exist %LIBRARY_BIN%\run_autotools_clang_conda_build.bat exit 0
+      - if not exist %LIBRARY_BIN%\run_autotools_clang_conda_build.bat exit 1
+  - files:
+      recipe:
+        - tests/autotools-smoke/
+    requirements:
+      run:
+        - ${{ compiler('c') }}
+    script:
+      - call tests\autotools-smoke\run-smoke.bat
 
 about:
   license: BSD-3-Clause
   license_file: LICENSE
   summary: Scripts to compile autotools projects on windows using clang and llvm tools
   description: |
-    This package installs clang compiler, lld linker, tools like llvm-ranlib, llvm-ar,
-    bash, autoconf to compiler autotools on windows. Resulting packages will be MSVC compatible.
-    To use this package, in meta.yaml
+    This package installs Clang, LLD, LLVM tools, Bash, and Autoconf to build
+    Autotools projects on Windows. Resulting packages are MSVC-compatible.
+    To use this package in a Windows recipe, skip non-Windows targets, add the
+    target C compiler through the recipe's `compiler('c')` helper, and add
+    `autotools_clang_conda` to the build requirements. Add `llvm-openmp` only
+    when OpenMP is required. On Windows ARM64, the wrapper supplies canonical
+    Autotools build and host aliases for the native compiler target.
 
         build:
-          skip: True  # [win and vc<14]
+          skip: not win
         requirements:
           build:
-            # cl compiler on win is required only for setting up env variables for
-            # activating the build environment
-            - {{ compiler('c') }}
-            - autotools_clang_conda  # [win]
-            # Needed only if OpenMP is used. Not compatible with MSVC's OpenMP implementation
-            - llvm-openmp   # [win]
+            - ${{ compiler('c') }}
+            - autotools_clang_conda
 
     In bld.bat
 
@@ -61,7 +69,7 @@ about:
     In build.sh
 
         ./configure --prefix=$PREFIX
-        [[ "$target_platform" == "win-64" ]] && patch_libtool
+        [[ "$target_platform" == win-* ]] && patch_libtool
         make -j${CPU_COUNT}
         make install
 
