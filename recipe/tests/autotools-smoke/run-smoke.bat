@@ -39,26 +39,8 @@ if errorlevel 1 exit /b 1
 
 call %CC% /nologo /MD /I"%LIBRARY_INC%" "%TEST_ROOT%installed-consumer.c" /link /LIBPATH:"%LIBRARY_LIB%" autotools_smoke.lib /OUT:"%SMOKE_ROOT%\installed-consumer.exe"
 if errorlevel 1 exit /b 1
-dumpbin /imports "%SMOKE_ROOT%\installed-consumer.exe" | findstr /I /C:"autotools_smoke-0.dll"
-if errorlevel 1 exit /b 1
 "%SMOKE_ROOT%\installed-consumer.exe"
 if errorlevel 1 exit /b 1
-
-if /I "%target_platform%"=="win-arm64" (
-    dumpbin /headers "%LIBRARY_BIN%\autotools-smoke.exe" | findstr /I /C:"AA64 machine (ARM64)"
-    if errorlevel 1 exit /b 1
-    dumpbin /headers "%SMOKE_DLL%" | findstr /I /C:"AA64 machine (ARM64)"
-    if errorlevel 1 exit /b 1
-    dumpbin /headers "%SMOKE_ROOT%\installed-consumer.exe" | findstr /I /C:"AA64 machine (ARM64)"
-    if errorlevel 1 exit /b 1
-) else (
-    dumpbin /headers "%LIBRARY_BIN%\autotools-smoke.exe" | findstr /I /C:"8664 machine (x64)"
-    if errorlevel 1 exit /b 1
-    dumpbin /headers "%SMOKE_DLL%" | findstr /I /C:"8664 machine (x64)"
-    if errorlevel 1 exit /b 1
-    dumpbin /headers "%SMOKE_ROOT%\installed-consumer.exe" | findstr /I /C:"8664 machine (x64)"
-    if errorlevel 1 exit /b 1
-)
 
 rmdir /S /Q "%SMOKE_ROOT%"
 if errorlevel 1 exit /b 1

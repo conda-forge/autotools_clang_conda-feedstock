@@ -1,5 +1,4 @@
 provider:
-  win: azure
   win_arm64: default
 test: native_and_emulated
 conda_forge_output_validation: true
