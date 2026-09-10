@@ -3,74 +3,26 @@ About autotools_clang_conda-feedstock
 
 Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/autotools_clang_conda-feedstock/blob/main/LICENSE.txt)
 
-
-About autotools_clang_conda
----------------------------
-
 Home: http://github.com/conda-forge/autotools_clang_conda-feedstock
 
 Package license: BSD-3-Clause
 
 Summary: Scripts to compile autotools projects on windows using clang and llvm tools
 
-This package installs Clang, LLD, LLVM tools, Bash, and Autoconf to build
-Autotools projects on Windows. Resulting packages are MSVC-compatible.
-To use this package in a Windows recipe, skip non-Windows targets, add the
-target C compiler through the recipe's `compiler('c')` helper, and add
-`autotools_clang_conda` to the build requirements. Add `llvm-openmp` only
-when OpenMP is required. On Windows ARM64, the wrapper supplies canonical
-Autotools build and host aliases for the native compiler target.
+This package installs clang compiler, lld linker, tools like llvm-ranlib, llvm-ar,
+bash, autoconf to compiler autotools on windows. Resulting packages will be MSVC compatible.
+To use this package, in meta.yaml
 
     build:
-      skip: not win
+      skip: True  # [win and vc<14]
     requirements:
       build:
-        - vs2022_win-64
-        - autotools_clang_conda
-
-In bld.bat
-
-    call %BUILD_PREFIX%\Library\bin\run_autotools_clang_conda_build.bat
-    if %ERRORLEVEL% neq 0 exit 1
-
-In build.sh
-
-    ./configure --prefix=$PREFIX
-    [[ "$target_platform" == win-* ]] && patch_libtool
-    make -j${CPU_COUNT}
-    make install
-
-In case the build script has a different name (for example in multi-output recipes),
-you can pass the name of the build script in the recipe folder to the bat-script:
-
-In build_subpackage.bat
-
-    call %BUILD_PREFIX%\Library\bin\run_autotools_clang_conda_build.bat build_subpackage.sh
-    if %ERRORLEVEL% neq 0 exit 1
-
-About autotools_clang_conda
----------------------------
-
-Home: http://github.com/conda-forge/autotools_clang_conda-feedstock
-
-Package license: BSD-3-Clause
-
-Summary: Scripts to compile autotools projects on windows using clang and llvm tools
-
-This package installs Clang, LLD, LLVM tools, Bash, and Autoconf to build
-Autotools projects on Windows. Resulting packages are MSVC-compatible.
-To use this package in a Windows recipe, skip non-Windows targets, add the
-target C compiler through the recipe's `compiler('c')` helper, and add
-`autotools_clang_conda` to the build requirements. Add `llvm-openmp` only
-when OpenMP is required. On Windows ARM64, the wrapper supplies canonical
-Autotools build and host aliases for the native compiler target.
-
-    build:
-      skip: not win
-    requirements:
-      build:
-        - vs2022_win-arm64
-        - autotools_clang_conda
+        # cl compiler on win is required only for setting up env variables for
+        # activating the build environment
+        - {{ compiler('c') }}
+        - autotools_clang_conda  # [win]
+        # Needed only if OpenMP is used. Not compatible with MSVC's OpenMP implementation
+        - llvm-openmp   # [win]
 
 In bld.bat
 
@@ -102,24 +54,6 @@ Current build status
       <a href="https://github.com/conda-forge/autotools_clang_conda-feedstock/actions/workflows/conda-build.yml">
         <img src="https://github.com/conda-forge/autotools_clang_conda-feedstock/actions/workflows/conda-build.yml/badge.svg?event=push&branch=main">
       </a>
-    </td>
-  </tr>
-    
-  <tr>
-    <td>Azure</td>
-    <td>
-      <details>
-        <summary>
-          <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=7523&branchName=main">
-            <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/autotools_clang_conda-feedstock?branchName=main">
-          </a>
-        </summary>
-        <table>
-          <thead><tr><th>Variant</th><th>Status</th></tr></thead>
-          <tbody>
-          </tbody>
-        </table>
-      </details>
     </td>
   </tr>
 </table>
