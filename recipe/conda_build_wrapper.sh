@@ -20,6 +20,14 @@ export lt_cv_deplibs_check_method=pass_all
 # are given as -I arguments and screws up the search path for eg: omp.h
 unset INCLUDE
 
+# The MSYS userland is x64, so config.guess cannot identify Windows ARM64.
+if [[ "${target_platform:-}" == "win-arm64" ]]; then
+    export host_alias="aarch64-w64-mingw32"
+fi
+if [[ "${build_platform:-}" == "win-arm64" ]]; then
+    export build_alias="aarch64-w64-mingw32"
+fi
+
 echo "You need to run patch_libtool bash function after configure to fix the libtool script."
 echo "If your package uses OpenMP, add llvm-openmp to your host and run requirements."
 

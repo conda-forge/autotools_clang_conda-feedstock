@@ -32,7 +32,7 @@ In bld.bat
 In build.sh
 
     ./configure --prefix=$PREFIX
-    [[ "$target_platform" == "win-64" ]] && patch_libtool
+    [[ "$target_platform" == win-* ]] && patch_libtool
     make -j${CPU_COUNT}
     make install
 
@@ -48,30 +48,12 @@ Current build status
 ====================
 
 
-<table>
-    
-  <tr>
-    <td>Azure</td>
+<table><tr>
+    <td>GitHub Actions</td>
     <td>
-      <details>
-        <summary>
-          <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=7523&branchName=main">
-            <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/autotools_clang_conda-feedstock?branchName=main">
-          </a>
-        </summary>
-        <table>
-          <thead><tr><th>Variant</th><th>Status</th></tr></thead>
-          <tbody><tr>
-              <td>win_64</td>
-              <td>
-                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=7523&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/autotools_clang_conda-feedstock?branchName=main&jobName=win&configuration=win%20win_64_" alt="variant">
-                </a>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </details>
+      <a href="https://github.com/conda-forge/autotools_clang_conda-feedstock/actions/workflows/conda-build.yml">
+        <img src="https://github.com/conda-forge/autotools_clang_conda-feedstock/actions/workflows/conda-build.yml/badge.svg?event=push&branch=main">
+      </a>
     </td>
   </tr>
 </table>
@@ -93,31 +75,73 @@ conda config --add channels conda-forge
 conda config --set channel_priority strict
 ```
 
-Once the `conda-forge` channel has been enabled, `autotools_clang_conda` can be installed with `conda`:
+How to use
+----------
+
+<details>
+<summary>With conda</summary>
 
 ```
 conda install autotools_clang_conda
 ```
 
-or with `mamba`:
+</details>
+
+<details>
+<summary>With mamba</summary>
 
 ```
 mamba install autotools_clang_conda
 ```
 
-It is possible to list all of the versions of `autotools_clang_conda` available on your platform with `conda`:
+</details>
+
+<details>
+<summary>With pixi</summary>
+
+```
+# for adding to your local project
+pixi add autotools_clang_conda
+# for installing globally
+pixi global install autotools_clang_conda
+```
+
+</details>
+
+Search package versions
+-----------------------
+
+It is possible to list all of the versions of `autotools_clang_conda` available on your platform:
+
+<details>
+<summary>With conda</summary>
 
 ```
 conda search autotools_clang_conda --channel conda-forge
 ```
 
-or with `mamba`:
+</details>
+
+<details>
+<summary>With mamba</summary>
 
 ```
 mamba search autotools_clang_conda --channel conda-forge
 ```
 
-Alternatively, `mamba repoquery` may provide more information:
+</details>
+
+<details>
+<summary>With pixi</summary>
+
+```
+pixi search autotools_clang_conda --channel conda-forge
+```
+
+</details>
+
+<details>
+<summary>With mamba repoquery, which may provide more information</summary>
 
 ```
 # Search all versions available on your platform:
@@ -129,6 +153,8 @@ mamba repoquery whoneeds autotools_clang_conda --channel conda-forge
 # List dependencies of `autotools_clang_conda`:
 mamba repoquery depends autotools_clang_conda --channel conda-forge
 ```
+
+</details>
 
 
 About conda-forge
